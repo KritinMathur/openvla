@@ -151,3 +151,12 @@ data/
 # Rollout videos and wandb logs
 rollouts/
 wandb/
+
+# tensorflow_data
+tensorflow_datasets/
+
+#runs
+runs/
+
+#nohup
+nohup.out

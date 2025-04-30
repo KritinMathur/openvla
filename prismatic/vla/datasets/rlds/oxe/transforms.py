@@ -27,6 +27,31 @@ from prismatic.vla.datasets.rlds.utils.data_utils import (
     relabel_bridge_actions,
 )
 
+def roboracer_dataset_transform(trajectory: Dict[str, Any]) -> Dict[str, Any]:
+    # --- REMAP PRIMARY IMAGE TO WRIST_IMAGE KEY ---
+    # your data now only has 'image' for the onboard camera,
+    # so move it under 'wrist_image' and drop the old 'image' key:
+    trajectory["observation"]["wrist_image"] = trajectory["observation"].pop("image")
+
+    # --- CAST DEPTH TO FLOAT32 ---
+    trajectory["observation"]["depth_image"] = tf.cast(
+        trajectory["observation"]["depth_image"], tf.float32
+    )
+
+    # --- NEW: build an 8-D state by appending a zero to the 7-D [pos,quat] ---
+
+    print("_________________________________________________ RUNNNING ))))))))))))))))))))))")
+
+    state7 = trajectory["observation"]["state"]            # [T,7]
+    zeros1 = tf.zeros([tf.shape(state7)[0], 1], dtype=state7.dtype)
+    trajectory["observation"]["8d_state"] = tf.concat([state7, zeros1], axis=-1)  # [T,8]
+
+    # --- PAD ACTIONS TO 8D ---
+    action2d = trajectory["action"]  # shape [T,2]
+    zeros_padding = tf.zeros([tf.shape(action2d)[0], 5], dtype=action2d.dtype)
+    trajectory["action"] = tf.concat([action2d, zeros_padding], axis=-1)  # now [T,7]
+
+    return trajectory
 
 def bridge_oxe_dataset_transform(trajectory: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -843,6 +868,7 @@ def libero_dataset_transform(trajectory: Dict[str, Any]) -> Dict[str, Any]:
 
 # === Registry ===
 OXE_STANDARDIZATION_TRANSFORMS = {
+    "roboracer2_cones_vla":roboracer_dataset_transform,
     "bridge_oxe": bridge_oxe_dataset_transform,
     "bridge_orig": bridge_orig_dataset_transform,
     "bridge_dataset": bridge_orig_dataset_transform,
@@ -920,3 +946,4 @@ OXE_STANDARDIZATION_TRANSFORMS = {
     "libero_goal_no_noops": libero_dataset_transform,
     "libero_10_no_noops": libero_dataset_transform,
 }
+

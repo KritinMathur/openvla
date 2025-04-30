@@ -52,6 +52,13 @@ class ActionEncoding(IntEnum):
 
 # === Individual Dataset Configs ===
 OXE_DATASET_CONFIGS = {
+    "roboracer2_cones_vla":{
+        "image_obs_keys": {"primary": None, "secondary": None, "wrist": "image"},
+        "depth_obs_keys": {"primary": None, "secondary": None, "wrist": "depth_image"},
+        "state_obs_keys": ["8d_state"],
+        "state_encoding": StateEncoding.POS_QUAT,
+        "action_encoding": ActionEncoding.EEF_POS,
+    },
     "fractal20220817_data": {
         "image_obs_keys": {"primary": "image", "secondary": None, "wrist": None},
         "depth_obs_keys": {"primary": None, "secondary": None, "wrist": None},
@@ -671,3 +678,4 @@ OXE_DATASET_CONFIGS = {
         "action_encoding": ActionEncoding.EEF_POS,
     },
 }
+
