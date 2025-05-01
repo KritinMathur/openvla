@@ -67,7 +67,7 @@ def predict():
 
     # Run inference
     with torch.no_grad():
-        action = vla.predict_action(**inputs, unnorm_key="bridge_orig", do_sample=False)
+        action = vla.predict_action(**inputs, do_sample=False)
 
     # Convert to Python list
     action_list = action.tolist()
