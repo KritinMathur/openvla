@@ -1,5 +1,8 @@
 # RoboRacer-VLA: Vision-Language-Action Based Autonomous Driving on the RoboRacer Platform
 
+Dataset (for reference/fine-tuning scripts):
+https://huggingface.co/datasets/KendrickX/RacerVLA/tree/main
+
 ## Installation
 
 Use the setup commands below to get started:
@@ -42,6 +45,12 @@ This repository contains two main components:
 - **RealSense ROS 2 package** ([realsense2_camera](https://github.com/IntelRealSense/realsense-ros))  
 - Python 3  
 - Bluetooth gamepad/controller paired with your system  
+
+### 0. Model Weights & Dataset
+Before running the server, download the fine-tuned weights and dataset:
+
+Weights (place the resulting folder in the project root):
+https://huggingface.co/KendrickX/openvla-7b-lora-cones/upload/main
 
 ### 1. Running the Server
 
@@ -103,9 +112,3 @@ ros2 topic pub /vla_instruction std_msgs/String \
 
 - **Networking**  
   - Ensure the RoboRacer platform can reach the control/server machine (IP, firewall, etc.).
-
----
-
-## License
-
-This project is released under the MIT License. See [LICENSE](LICENSE) for details.
