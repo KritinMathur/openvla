@@ -1,4 +1,4 @@
-# RoboRacer-VLA: A Vision-Language-Action Model
+# RoboRacer-VLA: Vision-Language-Action Based Autonomous Driving on the RoboRacer Platform
 
 ## Installation
 
